@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <title>
+               :: OTP based login ::
+        </title>
+    </head>
+    <body bgcolor="skyblue">
+        <br><br>
+        <form action="localhost" method="post">
+        <table border ="0" align="center">
+            <caption>Login using Email based OTP<br></caption>
+            <tr>
+                <td>
+                    <label>Email: </label>
+                </td>
+                <td>
+                    <input name="email" type="text">
+                </td>
+
+            </tr>
+            <tr>    
+                <td>
+                    <label>OTP: </label>
+                </td>
+                <td>
+                    <input name="otp" type="password"  id="otp">
+                </td>
+            </tr>
+            <tr>
+                    <td align="center" colspan="2">   
+                        <input name="submitotp" type="submit" id="submitBtn1" value="OTP" formaction="otp.php" onclick="startCountdown()">
+                        <input name="submitBtn" type="submit" id="submitBtn2" value="Verify" formaction="status.php">
+                    </td>
+            </tr>
+            <tr>
+                <td align="center"  colspan="2">                    
+                    <label id="label">OTP expiring in</label>  
+                    <label align="center" id="countdown-label">00:30</label>  
+                    <script>
+                        function startCountdown(durationInSeconds, labelElement) {
+                            let timer = durationInSeconds;
+                            const countdownInterval = setInterval(function() {
+                                const minutes = Math.floor(timer / 60);
+                                const seconds = timer % 60;
+                
+                                labelElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                
+                                if (--timer < 0) {
+                                    clearInterval(countdownInterval);
+                                    labelElement.textContent = '0:00';
+                                }
+                            }, 1000);
+                        }
+                
+                        const countdownDuration = 30; // 1 minute in seconds
+                        const countdownLabel = document.getElementById('countdown-label');
+                        startCountdown(countdownDuration, countdownLabel);
+                    </script>
+                </td>
+            </tr>
+            </tr>
+        </table>
+        </form>
+    </body>
+</html>
