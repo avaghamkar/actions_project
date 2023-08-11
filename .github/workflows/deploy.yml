@@ -1,36 +1,26 @@
-name: Azure VM Deployment
+name: Deploy to Azure
 
 on:
   push:
     branches:
-      - main  # Change this to your main branch name
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.1
-      with:
-        ssh-private-key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
-    
-    - name: Install Apache and PHP
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y apache2 php libapache2-mod-php
-        sudo systemctl start apache2
-        sudo systemctl enable apache2
-    
-    - name: Copy files to Azure VM
-      run: |
-        scp -o StrictHostKeyChecking=no -r PHPMailer login.html otp.php status.php ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_PUBLIC_IP }}:/var/www/html
-    
-    - name: Notify deployment success
-      run: echo "Deployment to Azure VM complete."
 
-    - name: Print Public IP URL
-      run: echo "Access your web app at http://${{ secrets.AZURE_VM_PUBLIC_IP }}"
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Azure CLI
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy to Azure VM
+      run: |
+        # Add commands to copy files to your Azure VM here
+        # For example:
+        # scp -r your-local-folder user@your-vm-ip-address:/var/www/html/
+
